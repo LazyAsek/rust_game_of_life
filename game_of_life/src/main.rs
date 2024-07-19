@@ -1,8 +1,8 @@
 
 
 
-use sdl2::{event::Event, pixels::Color, rect::{Point, Rect}, render::Canvas, video::Window, EventPump, Sdl, VideoSubsystem};
-use std::thread::sleep;
+use sdl2::{event::Event, keyboard::Keycode, pixels::Color, rect::{Point, Rect}, render::Canvas, video::Window, EventPump, Sdl, VideoSubsystem};
+use std:: thread::sleep;
 use std::time::{Duration,Instant};
 
 fn init_grid (cells: &u32, cell_size: &u32,border : &u32) -> u32{
@@ -240,6 +240,60 @@ fn game_of_life(mut grid : Vec<Vec<u32>>) -> Vec<Vec<u32>>{
     return grid;
 }
 
+fn langton_ant (mut grid : Vec<Vec<u32>>,mut i : usize,mut j:usize,mut diraction : u32) -> (Vec<Vec<u32>>,usize,usize,u32) {
+    // 1 n 2 e 3 s 4 w
+    if grid[i][j] == 1{
+        diraction = diraction +1;
+        if diraction == 5{
+            diraction = 1;
+        }
+        grid[i][j] = 0;
+    }
+    else{
+        if diraction == 1{
+            diraction = 4;
+        }
+        else{
+            diraction = diraction -1;
+        }
+        grid[i][j] = 1;
+    }
+
+    if diraction == 1{
+        if i == 0{
+            i = grid.len()-1;
+        }
+        else{
+            i = i -1
+        }
+    }
+    if diraction == 2{
+        if j == grid.len()-1{
+            j=0
+        }
+        else {
+            j = j +1;
+        }
+    }
+    if diraction == 3{
+        if i == grid.len()-1{
+            i = 0;
+        }
+        else{
+            i = i +1;
+        }
+    }
+    if diraction == 4{
+        if j == 0{
+            j = grid.len()-1;
+        }
+        else {
+            j = j -1;
+        }
+    }
+    return (grid,i,j,diraction);
+
+}
 fn main() {
 
     //todo
@@ -251,9 +305,9 @@ fn main() {
     const CELLS : u32 = 60;
     const CELL_SIZE : u32 =10;
     const BORDER_WITDH : u32 =1;
-    const STARTING_SQUARES : i32 = 30;
+    const STARTING_SQUARES : i32 = 0;
     //iterations delay between each in miliseconds
-    const INTERVAL : u64 = 100;
+    const INTERVAL : u64 = 10;
 
     let size : u32 = init_grid(&CELLS,&CELL_SIZE,&BORDER_WITDH);
 
@@ -277,7 +331,12 @@ fn main() {
 
     let mut event_pump:EventPump = sld_context.event_pump().unwrap();
     let mut next_time = Instant::now() + Duration::from_millis(INTERVAL);
-    let mut run : bool = false;
+    let mut gol : bool = false;
+    let mut ant : bool = false;
+    let mut i : usize = grid.len()/2;
+    let mut j : usize = grid.len()/2;
+    let mut values : (Vec<Vec<u32>>,usize,usize,u32);
+    let mut diraction : u32 = 1;
 
     'running : loop{
         for event in event_pump.poll_iter(){
@@ -285,8 +344,11 @@ fn main() {
                 Event::Quit { .. } => {
                     break 'running;
                 },
-                Event::KeyDown {keycode:_space , ..} =>{
-                    run = true;
+                Event::KeyDown {keycode : Some(Keycode::Space)  , ..} =>{
+                    gol = true;
+                },
+                Event::KeyDown {keycode : Some(Keycode::A), .. } =>{
+                    ant = true;
                 },
                 _ => {}
             }
@@ -302,8 +364,16 @@ fn main() {
         _canvas = draw_rectangles(_canvas, &grid, &coords, CELL_SIZE);
 
         //game of life line activate after pressing space
-        if run == true{
+        if gol == true{
             grid = game_of_life(grid);
+        }
+
+        if ant == true{
+            values = langton_ant(grid, i, j, diraction);
+            grid = values.0;
+            i = values.1;
+            j = values.2;
+            diraction = values.3;
         }
 
 
