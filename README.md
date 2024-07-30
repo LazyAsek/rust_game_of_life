@@ -7,7 +7,7 @@ Langton's Ant
 issues
 - check_around function diagonal checking does not work properly
 
-
+In release folder is exe file
 Game of Life:
 
 
