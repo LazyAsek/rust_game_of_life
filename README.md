@@ -6,6 +6,18 @@ Langton's Ant
 
 issues
 - check_around function diagonal checking does not work properly
+Game of Life:
+
+
+https://github.com/user-attachments/assets/227d4401-bf48-4b21-84cc-e1c5d8f8169e
+
+
+Langton's ant:
+
+
+https://github.com/user-attachments/assets/f7f5edfb-cd58-4e63-9f13-870ba001da39
+
+
 
 Twitter: 
 https://x.com/JulianWloch
