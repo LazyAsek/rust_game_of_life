@@ -27,4 +27,4 @@ https://x.com/JulianWloch
 Buy me a coffee:
 [Donate](https://paypal.me/YoulianMedium?country.x=PL&locale.x=pl_PL)
 
-![image](https://github.com/user-attachments/assets/8b64c440-82f4-432c-8b3a-2ad72568e2b5)
+![image](https://github.com/user-attachments/assets/8b64c440-82f4-432c-8b3a-2ad72568e2b5)(https://paypal.me/YoulianMedium?country.x=PL&locale.x=pl_PL)
