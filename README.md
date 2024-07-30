@@ -6,6 +6,8 @@ Langton's Ant
 
 issues
 - check_around function diagonal checking does not work properly
+
+
 Game of Life:
 
 
